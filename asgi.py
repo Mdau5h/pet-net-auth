@@ -1,7 +1,7 @@
 import uvicorn
 from fastapi import FastAPI
 
-from auth.app.fastapi_ import create_app
+from auth.app.app import create_app
 
 app: FastAPI = create_app()
 
