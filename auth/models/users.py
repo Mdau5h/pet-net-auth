@@ -3,7 +3,7 @@ from sqlalchemy import (
     String,
     LargeBinary
 )
-from auth.api.models.base import Base, BaseMixin
+from auth.models.base import Base, BaseMixin
 
 
 class User(BaseMixin, Base):
@@ -14,4 +14,3 @@ class User(BaseMixin, Base):
     email = Column(String(255), default='')
     login = Column(String(255), nullable=False, unique=True)
     password = Column(LargeBinary(255), nullable=False)
-
