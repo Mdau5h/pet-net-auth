@@ -10,7 +10,10 @@ uvicorn = "*"
 python-multipart = "*"
 pyjwt = "*"
 bcrypt = "4.0.1"
-sqlalchemy = "==1.4.*"
+sqlalchemy = {version = "==2.0.*", extras = ["asyncio"]}
+pydantic = {extras = ["email"], version = "1.10.7"}
+asyncio = "*"
+aiosqlite = "*"
 
 [dev-packages]
 
