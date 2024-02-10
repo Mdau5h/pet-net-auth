@@ -3,7 +3,7 @@ from sqlalchemy import (
     String,
     LargeBinary
 )
-from auth.models.base import Base, BaseMixin
+from auth.api.models.base import Base, BaseMixin
 
 
 class User(BaseMixin, Base):

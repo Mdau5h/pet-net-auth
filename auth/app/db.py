@@ -2,7 +2,7 @@ from contextlib import asynccontextmanager
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.ext.asyncio import create_async_engine
 from sqlalchemy.orm import sessionmaker
-from auth.models.base import Base
+from auth.api.models.base import Base
 from config import config
 
 

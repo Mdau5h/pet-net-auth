@@ -1,6 +1,6 @@
 from fastapi import APIRouter
-from auth.database.controllers import create_user
-from auth.models.schema import UserRequest, UserResponse
+from auth.api.v1.controllers import create_user
+from auth.serializers.schema import UserRequest, UserResponse
 
 routes = APIRouter()
 

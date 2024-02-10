@@ -1,8 +1,8 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from sqlalchemy.orm import Load
-from auth.models.users import User
-from auth.models.schema import UserRequest
+from auth.api.models.users import User
+from auth.serializers.schema import UserRequest
 
 
 async def create_user_db(
