@@ -1,7 +1,7 @@
 import uvicorn
 from fastapi import FastAPI
 from auth.app.app import create_app
-from auth.database.utils import db_setup
+from auth.app.db import db_setup
 
 app: FastAPI = create_app()
 
