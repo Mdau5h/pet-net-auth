@@ -34,5 +34,3 @@ async def get_user_by_login_db(login: str, session: AsyncSession) -> User:
         User.login == login)
     query_result = await session.execute(query)
     return query_result.scalar_one()
-
-
