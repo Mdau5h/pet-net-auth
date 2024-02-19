@@ -28,7 +28,8 @@ async def get_user_by_login_db(login: str, session: AsyncSession) -> User:
         Load(User).load_only(
             User.id,
             User.login,
-            User.password
+            User.password,
+            User.email
         )
     ).where(
         User.login == login)

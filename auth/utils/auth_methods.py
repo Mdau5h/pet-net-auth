@@ -1,17 +1,14 @@
 import datetime
 import typing as t
 from bcrypt import checkpw
-from jwt import encode, decode
-from fastapi import Depends
-from fastapi.security import OAuth2PasswordBearer
+from jwt import encode, decode, InvalidTokenError
 from sqlalchemy.exc import NoResultFound
 from sqlalchemy.ext.asyncio import AsyncSession
-from auth.app.db import async_session, db_transaction
+from fastapi.security import HTTPAuthorizationCredentials
+from auth.app.db import db_transaction
 from auth.api.v1.db_controllers import get_user_by_login_db
 from auth.utils.exceptions import UnauthorisedError
 from config import config
-
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 
 @db_transaction
@@ -25,11 +22,20 @@ async def authenticate_user(login: str, password: str, session: AsyncSession):
     return user
 
 
-async def read_current_user(token: t.Annotated[str, Depends(oauth2_scheme)]):
-    token_payload = decode_access_token(token=token)
+async def verification_token(
+        credentials: HTTPAuthorizationCredentials,
+        session: AsyncSession
+):
+    try:
+        token_payload = decode_access_token(token=credentials.credentials)
+    except InvalidTokenError:
+        return False
     user_login = token_payload['payload']['login']
-    async with async_session() as session:
-        return await get_user_by_login_db(user_login, session=session)
+    try:
+        await get_user_by_login_db(user_login, session=session)
+    except NoResultFound:
+        return False
+    return True
 
 
 def generate_token(subject: t.Union[str, t.Any]):
@@ -38,8 +44,16 @@ def generate_token(subject: t.Union[str, t.Any]):
         'expire': str(expire),
         'payload': subject
     }
-    return encode(token_data, key=config.PRIVATE_KEY, algorithm=config.JWT_ALGORITHM)
+    return encode(
+        token_data,
+        key=config.PRIVATE_KEY,
+        algorithm=config.JWT_ALGORITHM
+    )
 
 
 def decode_access_token(token):
-    return decode(token, config.PUBLIC_KEY, algorithms=[config.JWT_ALGORITHM])
+    return decode(
+        token,
+        key=config.PUBLIC_KEY,
+        algorithms=[config.JWT_ALGORITHM]
+    )

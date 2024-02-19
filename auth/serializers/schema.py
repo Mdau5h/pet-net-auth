@@ -11,3 +11,13 @@ class UserRequest(BaseModel):
 
 class UserResponse(BaseModel):
     id: int
+
+
+class UserAuth(BaseModel):
+    login: str
+    password: str
+
+
+class TokenInfo(BaseModel):
+    access_token: str
+    token_type: str
