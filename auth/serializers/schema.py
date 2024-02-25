@@ -2,9 +2,9 @@ from pydantic import BaseModel, Field, EmailStr
 
 
 class UserRequest(BaseModel):
-    full_name: str = Field(..., alias='fullName')
+    full_name: str = Field(..., alias='fullName', example='Иванов Иван Иванович')
     phone: str = Field(..., alias='phone', pattern=r'^\d{10,}$', min_length=10, max_length=10)
-    email: EmailStr = Field('', alias='email')
+    email: EmailStr = Field('', alias='email', example='test@mail.com')
     login: str = Field(..., alias='login')
     password: str = Field(..., alias='password')
 
