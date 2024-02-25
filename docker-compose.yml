@@ -1,0 +1,12 @@
+version: '3'
+services:
+  auth:
+    environment:
+      - HOST=$HOST
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/usr/src/auth/
+    ports:
+     - '5000:5000'
