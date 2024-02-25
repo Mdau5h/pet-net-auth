@@ -1,7 +1,7 @@
 import datetime
 import typing as t
 from bcrypt import checkpw
-from jwt import encode, decode, InvalidTokenError
+from jwt import encode, decode
 from sqlalchemy.exc import NoResultFound
 from sqlalchemy.ext.asyncio import AsyncSession
 from fastapi.security import HTTPAuthorizationCredentials
@@ -28,7 +28,8 @@ async def verification_token(
 ):
     try:
         token_payload = decode_access_token(token=credentials.credentials)
-    except InvalidTokenError:
+    # todo: make exception more specific
+    except:
         return False
     user_login = token_payload['payload']['login']
     try:
