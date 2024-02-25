@@ -24,6 +24,8 @@ class Config:
     JWT_ALGORITHM: str = os.getenv('JWT_ALGORITHM')
 
     TOKEN_EXPIRE_TIME_MINUTES: int = int(os.getenv('TOKEN_EXPIRE_TIME_MINUTES'))
+    HOST: str = os.getenv('HOST')
+    PORT: int = int(os.getenv('PORT'))
     SALT_ROUND: int = int(os.getenv('SALT_ROUND'))
     DB_NAME: str = os.getenv('DB_NAME')
     DB_URL: str = f'sqlite+aiosqlite:///{DB_NAME}'
