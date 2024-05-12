@@ -13,7 +13,7 @@ bcrypt = "4.0.1"
 sqlalchemy = {version = "==2.0.*", extras = ["asyncio"]}
 pydantic = {extras = ["email"], version = "1.10.7"}
 asyncio = "*"
-aiosqlite = "*"
+asyncpg = "0.27.0"
 cryptography = "*"
 
 [dev-packages]
