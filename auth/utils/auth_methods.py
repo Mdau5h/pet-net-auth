@@ -16,9 +16,9 @@ async def authenticate_user(login: str, password: str, session: AsyncSession):
     try:
         user = await get_user_by_login_db(login, session=session)
     except NoResultFound:
-        raise UnauthorisedError()
+        raise UnauthorisedError("User doesn't exist")
     if not checkpw(str.encode(password), user.password):
-        raise UnauthorisedError()
+        raise UnauthorisedError('Invalid username or password')
     return user
 
 
