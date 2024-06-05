@@ -5,6 +5,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from auth.app.db import get_session
 from auth.serializers.schema import TokenInfo, UserAuth
 from auth.utils.auth_methods import authenticate_user, generate_token, verification_token
+from auth.utils.exceptions import UnauthorisedError
 
 
 token_route = APIRouter()
@@ -34,7 +35,9 @@ async def check_token(
     authorization: Optional[HTTPAuthorizationCredentials] = Depends(security),
     session: AsyncSession = Depends(get_session),
 ):
-    return {
-        'message': 'Access granted' if await verification_token(authorization, session) else 'Access denied'
-    }
+    if await verification_token(authorization, session):
+        return {'message': 'Access granted'}
+    else:
+        raise UnauthorisedError('Access denied')
+
 
