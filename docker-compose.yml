@@ -1,5 +1,27 @@
 version: '3'
 services:
+  postgres:
+    image: postgres:13.3
+    environment:
+      POSTGRES_DB: "petnet_auth_db"
+      POSTGRES_USER: "admin"
+      POSTGRES_PASSWORD: "admin"
+    ports:
+      - "9999:5432"
+#    healthcheck:
+#      test: [ "CMD-SHELL", "pg_isready" ]
+#      interval: 10s
+#      timeout: 5s
+#      retries: 5
+  rabbitmq:
+    image: rabbitmq:3.10.7-management
+    hostname: rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin_auth
+      - RABBITMQ_DEFAULT_PASS=admin_auth
+    ports:
+      - "15672:15672"
+      - "5672:5672"
   auth:
     environment:
       - HOST=$HOST
@@ -10,11 +32,6 @@ services:
       - .:/usr/src/auth/
     ports:
      - '5000:5000'
-  postgres:
-    image: postgres:13.3
-    environment:
-      POSTGRES_DB: "petnet_auth_db"
-      POSTGRES_USER: "admin"
-      POSTGRES_PASSWORD: "admin"
-    ports:
-      - "9999:5432"
+#    depends_on:
+#      postgres:
+#        condition: service_healthy
