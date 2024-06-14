@@ -33,8 +33,12 @@ class Config:
     DB_PG_USERNAME: str = os.getenv('DB_PG_USERNAME')
     DB_PG_PASSWORD: str = os.getenv('DB_PG_PASSWORD')
 
+    RABBITMQ_HOST: str = os.getenv('RABBITMQ_HOST')
+    RABBITMQ_USERNAME: str = os.getenv('RABBITMQ_USERNAME')
+    RABBITMQ_PASSWORD: str = os.getenv('RABBITMQ_PASSWORD')
+
     @property
-    def DB_PG_URL(self):
+    def db_pg_url(self):
         return 'postgresql+asyncpg://{user}:{password}@{host}:{port}/{db_name}'.format(
             user=self.DB_PG_USERNAME,
             password=self.DB_PG_PASSWORD,
@@ -42,6 +46,10 @@ class Config:
             port=self.DB_MASTER_PG_PORT,
             db_name=self.DB_NAME,
         )
+
+    @property
+    def rabbitmq_url(self) -> str:
+        return f'amqp://{self.RABBITMQ_USERNAME}:{self.RABBITMQ_PASSWORD}@{self.RABBITMQ_HOST}'
 
 
 config = Config()
